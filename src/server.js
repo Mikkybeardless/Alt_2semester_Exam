@@ -1,12 +1,13 @@
 import { connect } from "./database/connection.js";
 import app from "./app.js";
+import logger from "../config/logger.js";
 
 const MONGODB_URL = process.env.MONGODB_URL;
 const PORT = process.env.PORT;
 
 connect(MONGODB_URL).then(() => {
-  console.log("Connected to DB");
+  logger.info("Connected to DB");
   app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    logger.info(`Server is running on http://localhost:${PORT}`);
   });
 });

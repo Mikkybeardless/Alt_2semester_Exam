@@ -10,12 +10,12 @@ const blogRoute = Router();
 // General routes
 blogRoute.get("/",blogController.getAllBlogs);
 blogRoute.get("/published", blogController.getPublishedBlogs);
-blogRoute.get("/read", blogController.getBlogById);
+blogRoute.get("/:id/read", blogController.getPublishedBlogById);
 
 // protected routes
 blogRoute.use(authMiddleware);
 // blogRoute.get("me/all",checkOwnerMiddleware, blogController.getAllUserBlogs );
-blogRoute.get("/state", blogController.getBlogsByState);
+blogRoute.get("/draft", blogController.getDraftBlogs);
 
 // create a blog post
 blogRoute.post("/create", generateMiddleware(blogPostSchema), blogController.createBlog);

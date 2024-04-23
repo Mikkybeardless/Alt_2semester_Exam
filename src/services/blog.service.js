@@ -1,9 +1,8 @@
 import { Blog } from "../database/schema/blog.schema.js";
-import { ErrorWithStatus } from "../exception/errorWithStatus.exception.js";
+import logger from "../../config/logger.js";
 
-// const User = require("../database/schema/user.schema.js")
 
-// get all blogs from api(only admin can do this)
+
 export const getAllBlogs = async () => {
   try {
     const skip = (page - 1) * limit;
@@ -24,46 +23,15 @@ export const getAllBlogs = async () => {
     const total = await Blog.countDocuments(filter);
     return { data: blogs, meta: { page, limit, total } };
   } catch (error) {
-    console.log(error);
-    throw new ErrorWithStatus(error.message, 500);
-  }
-};
-
-// get blogs owned by a user
-export const getAllUserBlogs = async (page = 1, limit = 20, query = null, userId) => {
-  try {
-   
-    const skip = (page - 1) * limit;
-    const filter = query
-      ? {
-          $or: [
-            { title: { $regex: query, $options: "i" } },
-            { description: { $regex: query, $options: "i" } },
-            { tag: { $regex: query, $options: "i" } },
-          ],
-        }
-      : {};
-
-    const blogs = await Blog.find({
-      $and: [
-        { id: userId }, // Filter by user ID
-        filter, // Apply the filter conditionally
-      ],
-    })
-      .skip(skip)
-      .limit(limit);
-    const total = await Blog.countDocuments(filter);
-    return { data: blogs, meta: { page, limit, total } };
-  } catch (error) {
-    console.log(error);
-    throw new ErrorWithStatus(error.message, 500);
+  logger.error(error);
+    res.status(500).send(error)
   }
 };
 
 
-export const getPublishedBlogs = async (page = 1, limit = 20, query = null, blogState)=>{
+export const getBlogByState = async (page = 1, limit = 20, query = null, blogState)=>{
   try {
-   
+
     const skip = (page - 1) * limit;
     const filter = query
       ? {
@@ -86,11 +54,20 @@ export const getPublishedBlogs = async (page = 1, limit = 20, query = null, blog
     const total = await Blog.countDocuments(filter);
     return { data: blogs, meta: { page, limit, total } };
   } catch (error) {
-    console.log(error);
-    throw new ErrorWithStatus(error.message, 500);
+    logger.error(error);
+    res.status(500).send(error)
   }
 }
 
+export const getBlogById = async (blogState, blogId) =>{
+    try {
+      const blog = await Blog.findOne({state: blogState, id:blogId });
+      return blog
+    } catch (error) {
+      logger.error(error);
+    res.status(500).send(error) 
+    }
+}
 
 
 export const getOwnerBlogs = async (page = 1, limit = 20, query = null, ownerId)=>{
@@ -118,7 +95,47 @@ export const getOwnerBlogs = async (page = 1, limit = 20, query = null, ownerId)
     const total = await Blog.countDocuments(filter);
     return { data: blogs, meta: { page, limit, total } };
   } catch (error) {
-    console.log(error);
-    throw new ErrorWithStatus(error.message, 500);
+    logger.error(error);
+    res.status(500).send(error)
+  }
+}
+
+
+export const create = async (blog) =>{
+   try {
+    const newBlog = await Blog.create(blog);
+    return newBlog;
+   } catch (error) {
+    logger.error(error);
+    res.status(500).send(error)
+   }
+}
+
+export const publishBlog = async(blogId) =>{
+  try {
+    const publishedBlog = await Blog.findByIdAndUpdate(blogId, {state: "published"}, {new: true});
+    return publishedBlog;
+  } catch (error) {
+    logger.error(error);
+    res.status(500).send(error)
+  }
+}
+
+export const updateBlog = async(blogId, blog) =>{
+  try {
+    const updatedBlog = await Blog.findOneAndUpdate(blogId, blog, {new: true})
+    return updatedBlog;
+  } catch (error) {
+    logger.error(error);
+  }
+}
+
+export const deleteBlog = async(blogId, ) =>{
+  try {
+    const deleteBlog = await Blog.findByIdAndDelete(id);
+    return deleteBlog;
+  } catch (error) {
+    logger.error(error);
+    res.status(500).send(error)
   }
 }

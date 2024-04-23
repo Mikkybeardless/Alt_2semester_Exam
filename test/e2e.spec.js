@@ -96,4 +96,30 @@ describe("E2E tests", () => {
     expect(res.body.message).toEqual("Validation Error");
     expect(res.body).toHaveProperty("errors");
   });
+
+  it("should not be able to create blog without token", async () => {
+    const res = await request(app).post("/blogs/create").send({
+      title: "The meg",
+      description: "This is the first test blog post",
+      author: "Igashi",
+      body: "welcome to test 1234. hope you get it."
+    });
+
+    console.log(res.body);
+    expect(res.statusCode).toEqual(401);
+    expect(res.body.message).toEqual("Unauthorized");
+    
+  });
+
+  
+  it("should not be able to create user - invalid payload", async () => {
+    const res = await request(app).post("/auth/sign_in").send({
+      email: "test@mymail.com",
+    });
+
+    console.log(res.body);
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual("Validation Error");
+    expect(res.body).toHaveProperty("errors");
+  });
 });
