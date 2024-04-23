@@ -15,7 +15,7 @@ export const getAllBlogs = async (req, res) => {
     const { data, meta } = await blogService.getAllBlogs(page, limit, query);
 
     // data = _.pick(data, ["title", "description","author", "body"])
- return  res.status(200).json({ message: "Get all blogs", data, meta });
+ return res.status(200).json({ message: "Get all blogs", data, meta });
   } catch (error) {
     logger.error(error)
     res.status(500).send(error.message)

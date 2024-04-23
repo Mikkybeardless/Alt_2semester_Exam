@@ -3,7 +3,7 @@ import logger from "../../config/logger.js";
 
 
 
-export const getAllBlogs = async () => {
+export const getAllBlogs = async (page, limit, query) => {
   try {
     const skip = (page - 1) * limit;
     const filter = query
@@ -24,7 +24,7 @@ export const getAllBlogs = async () => {
     return { data: blogs, meta: { page, limit, total } };
   } catch (error) {
   logger.error(error);
-    res.status(500).send(error)
+    
   }
 };
 
@@ -55,7 +55,7 @@ export const getBlogByState = async (page = 1, limit = 20, query = null, blogSta
     return { data: blogs, meta: { page, limit, total } };
   } catch (error) {
     logger.error(error);
-    res.status(500).send(error)
+    
   }
 }
 
@@ -65,7 +65,7 @@ export const getBlogById = async (blogState, blogId) =>{
       return blog
     } catch (error) {
       logger.error(error);
-    res.status(500).send(error) 
+     
     }
 }
 
@@ -96,7 +96,7 @@ export const getOwnerBlogs = async (page = 1, limit = 20, query = null, ownerId)
     return { data: blogs, meta: { page, limit, total } };
   } catch (error) {
     logger.error(error);
-    res.status(500).send(error)
+    
   }
 }
 
@@ -107,7 +107,7 @@ export const create = async (blog) =>{
     return newBlog;
    } catch (error) {
     logger.error(error);
-    res.status(500).send(error)
+    
    }
 }
 
@@ -117,7 +117,7 @@ export const publishBlog = async(blogId) =>{
     return publishedBlog;
   } catch (error) {
     logger.error(error);
-    res.status(500).send(error)
+  
   }
 }
 
@@ -136,6 +136,6 @@ export const deleteBlog = async(blogId, ) =>{
     return deleteBlog;
   } catch (error) {
     logger.error(error);
-    res.status(500).send(error)
+  
   }
 }
