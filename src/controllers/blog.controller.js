@@ -72,17 +72,17 @@ export const getDraftBlogs = async (req,res)=>{
 // get blogs by id
 export const getPublishedBlogById = async (req, res) => {
   const blogId = req.params.id
-  const blogState = "published";
+
+ 
   try {
-    const blog = await blogService.getBlogById(blogState, blogId);
+    const blog = await blogService.getBlogById(blogId);
     if (!blog) {
       return res.status(404).json({ message: 'Blog not found' });
     }
-    
-  
+ 
     // Increment the read_count of the blog
-    blog.read_count = blog.read_count ? blog.read_count + 1 : 1;
-    await blog.save();
+    // blog.read_count = blog.read_count ? blog.read_count + 1 : 1;
+    // await blog.save();
   
     const authorName = blog.author;
   

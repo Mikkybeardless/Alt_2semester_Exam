@@ -8,19 +8,23 @@ export const getAllBlogs = async (page, limit, query) => {
     const skip = (page - 1) * limit;
     const filter = query
       ? {
-          or$: [
+          $or: [
             { title: { $regex: query, $options: "i" } },
             { author: { $regex: query, $options: "i" } },
             { tag: { $regex: query, $options: "i" } },
           ],
         }
       : {};
-    const blogs = await Blog.find(filter, {
+    const blogs = await Blog.find({  $and: [
+      { state:{ $ne: 'draft' } }, // Filter out draft
+      filter, // Applying the filter conditionally
+    ]}, {
       password: 0,
     })
       .skip(skip)
       .limit(limit);
     const total = await Blog.countDocuments(filter);
+   
     return { data: blogs, meta: { page, limit, total } };
   } catch (error) {
   logger.error(error);
@@ -59,9 +63,10 @@ export const getBlogByState = async (page = 1, limit = 20, query = null, blogSta
   }
 }
 
-export const getBlogById = async (blogState, blogId) =>{
+export const getBlogById = async ( blogId) =>{
     try {
-      const blog = await Blog.findOne({state: blogState, id:blogId });
+      const blog = await Blog.findById(blogId);
+      await blog.read()
       return blog
     } catch (error) {
       logger.error(error);
@@ -132,7 +137,7 @@ export const updateBlog = async(blogId, blog) =>{
 
 export const deleteBlog = async(blogId, ) =>{
   try {
-    const deleteBlog = await Blog.findByIdAndDelete(id);
+    const deleteBlog = await Blog.findByIdAndDelete(blogId);
     return deleteBlog;
   } catch (error) {
     logger.error(error);

@@ -20,11 +20,14 @@ blogRoute.get("/draft", blogController.getDraftBlogs);
 // create a blog post
 blogRoute.post("/create", generateMiddleware(blogPostSchema), blogController.createBlog);
 
-// restricted route to only owner
+// uses owner id from jwt to get blogs of owner
 blogRoute.get("/me", blogController.getBlogsByOwnerId)
-blogRoute.patch("/:id/publish", checkOwnerMiddleware, blogController.publishBlog);
-blogRoute.put("/:id/update", checkOwnerMiddleware, blogController.updateBlog)
-blogRoute.delete("/:id/delete",checkOwnerMiddleware, blogController.deleteBlog);
+// restricted route to only owner
+
+blogRoute.use(checkOwnerMiddleware)
+blogRoute.patch("/:id/publish",  blogController.publishBlog);
+blogRoute.put("/:id/update",  blogController.updateBlog)
+blogRoute.delete("/:id/delete", blogController.deleteBlog);
 
 
 

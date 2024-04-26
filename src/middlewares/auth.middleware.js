@@ -1,8 +1,10 @@
 import jwt from "jsonwebtoken"
+import logger from "../../config/logger.js";
 
 
 export const authMiddleware = (req,res,next) =>{
 // get authorization header
+logger.info("authentication Middleware")
 const authorization = req.headers.authorization
 
 if(!authorization){

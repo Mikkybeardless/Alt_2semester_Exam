@@ -50,12 +50,20 @@ const blogSchema = new mongoose.Schema({
     }
 );
 
-blogSchema.methods.read = async function (){
-    this.read_count++;
-    this.reading_time = calculateReadingTime(this.body);
-    await this.save();
-}
-
+blogSchema.methods.read = async function () {
+    if (!this.read_count) {
+      this.read_count = 1; // Set initial read count to 1
+    } else {
+      this.read_count++;
+    }
+  
+    if (!this.reading_time) {
+      this.reading_time = calculateReadingTime(this.body);
+      await this.save(); // Save the updated reading_time
+    } else {
+      await this.save(); // Save the updated read count
+    }
+  };
 function calculateReadingTime(content) {
     // Assuming average reading speed of 200 words per minute
     const words = content.split(' ').length;
