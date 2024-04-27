@@ -1,5 +1,6 @@
 import { Blog } from "../database/schema/blog.schema.js";
 import logger from "../../config/logger.js";
+import { ErrorWithStatus } from "../exception/errorWithStatus.exception.js";
 
 
 
@@ -28,6 +29,7 @@ export const getAllBlogs = async (page, limit, query) => {
     return { data: blogs, meta: { page, limit, total } };
   } catch (error) {
   logger.error(error);
+  throw new ErrorWithStatus(error.message, 500)
     
   }
 };
@@ -59,18 +61,18 @@ export const getBlogByState = async (page = 1, limit = 20, query = null, blogSta
     return { data: blogs, meta: { page, limit, total } };
   } catch (error) {
     logger.error(error);
-    
+    throw new ErrorWithStatus(error.message, 500)
   }
 }
 
-export const getBlogById = async ( blogId) =>{
+export const getBlogById = async (blogId) =>{
     try {
       const blog = await Blog.findById(blogId);
       await blog.read()
       return blog
     } catch (error) {
       logger.error(error);
-     
+      throw new ErrorWithStatus(error.message, 500)
     }
 }
 
@@ -101,18 +103,25 @@ export const getOwnerBlogs = async (page = 1, limit = 20, query = null, ownerId)
     return { data: blogs, meta: { page, limit, total } };
   } catch (error) {
     logger.error(error);
-    
+    throw new ErrorWithStatus(error.message, 500)
   }
 }
 
 
-export const create = async (blog) =>{
+export const create = async (blog, content, userId) =>{
    try {
+   
+    const words = content.split(' ').length
+        // Assuming average reading speed of 100 words per minute
+    const readingTime = Math.ceil(words / 200);
+      blog.owner = userId
+      blog.reading_time = readingTime
+
     const newBlog = await Blog.create(blog);
     return newBlog;
    } catch (error) {
     logger.error(error);
-    
+    throw new ErrorWithStatus(error.message, 500)
    }
 }
 
@@ -132,6 +141,7 @@ export const updateBlog = async(blogId, blog) =>{
     return updatedBlog;
   } catch (error) {
     logger.error(error);
+    throw new ErrorWithStatus(error.message, 500)
   }
 }
 
@@ -141,6 +151,6 @@ export const deleteBlog = async(blogId, ) =>{
     return deleteBlog;
   } catch (error) {
     logger.error(error);
-  
+    throw new ErrorWithStatus(error.message, 500)
   }
 }

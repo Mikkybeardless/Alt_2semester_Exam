@@ -18,7 +18,7 @@ export const getAllBlogs = async (req, res) => {
  return res.status(200).json({ message: "Get all blogs", data, meta });
   } catch (error) {
     logger.error(error)
-    res.status(500).send(error.message)
+    // res.status(500).send(error.message)
   }
 };
 
@@ -41,7 +41,7 @@ export const getPublishedBlogs = async (req,res)=>{
   })
   } catch (error) {
     logger.error(error)
-    res.status(500).send(error.message)
+    // res.status(500).send(error.message)
   }
 }
 
@@ -64,7 +64,7 @@ export const getDraftBlogs = async (req,res)=>{
   })
   } catch (error) {
     logger.error(error)
-    res.status(500).send(error.message)
+    // res.status(500).send(error.message)
   }
 
 }
@@ -89,7 +89,7 @@ export const getPublishedBlogById = async (req, res) => {
    return res.status(200).json({ message: "  blog by id", author: authorName, blog });
   } catch (error) {
     logger.error(error)
-   return res.status(500).send(error.message)
+   res.status(500).send(error.message)
   }
   
 }
@@ -107,13 +107,13 @@ export const getBlogsByOwnerId = async (req,res) =>{
    const {data, meta} = await blogService.getOwnerBlogs(page, limit, query, ownerId);
 
   //  data = _.pick(data, ["title", "description","author", "body"])
-  return res.status(200).json({
+   res.status(200).json({
    message:"Get all owner blogs",
    data: data, meta
   })
   } catch (error) {
     logger.error(error);
-  return  res.status(500).send(error.message)
+   res.status(500).send(error.message)
   }
 }
 
@@ -121,13 +121,14 @@ export const getBlogsByOwnerId = async (req,res) =>{
 export const createBlog = async (req, res) => {
        const blog = req.body
        const userId = req.user.id
-         blog.owner = userId
+       const content =  req.body.body
+       
        try {
-        const newBlog = await blogService.create(blog);
+        const newBlog = await blogService.create(blog, content, userId);
       return  res.status(201).json({message: "Blog successfully created", data: newBlog})
        } catch (error) {
         logger.error(error);
-        return  res.status(500).send(error.message)
+        res.status(500).send(error.message)
        } 
 }  
 
@@ -143,7 +144,7 @@ export const publishBlog = async (req, res) => {
   return res.status(200).json({message: "Blog successfully published", data: publishedBlog})
   } catch (error) {
     logger.log(error)
-    return res.status(500).send(error.message)
+   res.status(500).send(error.message)
   } 
 } 
 
@@ -153,10 +154,10 @@ export const updateBlog = async (req,res) => {
     const blogId = req.params.id
     const blog = req.body
     const updatedBlog = blogService.updateBlog(blogId, blog)
-   return  res.status(200).json({message: "Blog succesfully updated", data: updatedBlog})
+    res.status(200).json({message: "Blog succesfully updated", data: updatedBlog})
   } catch (error) {
     logger.error(error)
-   return  res.status(500).send(error.message)
+   res.status(500).send(error.message)
   }
 }
 
@@ -169,6 +170,6 @@ await blogService.deleteBlog(blogId);
 res.status(200).json({message: "Blog successfully deleted", data:""})
 } catch (error) {
   logger.error(error)
-return res.status(500).send(error.message)
+ res.status(500).send(error.message)
 } 
 }

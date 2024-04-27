@@ -57,17 +57,8 @@ blogSchema.methods.read = async function () {
       this.read_count++;
     }
   
-    if (!this.reading_time) {
-      this.reading_time = calculateReadingTime(this.body);
-      await this.save(); // Save the updated reading_time
-    } else {
-      await this.save(); // Save the updated read count
-    }
   };
-function calculateReadingTime(content) {
-    // Assuming average reading speed of 200 words per minute
-    const words = content.split(' ').length;
-    return Math.ceil(words / 200);
-}
+
+ 
 // model
 export const Blog = mongoose.model("blogs", blogSchema)

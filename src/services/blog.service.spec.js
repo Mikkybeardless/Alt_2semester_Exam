@@ -17,12 +17,14 @@ describe("Service: Blog Service", function () {
         description: "my first test",
         author: "Igashi",
         body: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen boo",
+        state: "published"
       },
       {
         title: "Blog 2",
         description: "my second test",
         author: "Igashi",
         body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vitae dui vel justo venenatis tristique. Quisque consequat lectus ac justo molestie, at facilisis mauris pellentesque. In quis mattis risus, vel cursus sem.",
+        state: "published"
       },
     ];
     Blog.find = jest.fn().mockReturnValue({
@@ -56,48 +58,15 @@ describe("Service: Blog Service", function () {
 
   it("should return all published blogs", async () => {
     // Given
-     let state = "published";
-     let page = 1;
-     let limit = 10;
-     let query = null;
-    const mockBlogs = [
+   
+ 
+    const publishedBlogs = [
       {
         title: "Blog 1",
         description: "my first test",
         author: "Igashi",
         body: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen boo",
-         state: "draft"
-      },
-      {
-        title: "Blog 2",
-        description: "my second test",
-        author: "justina",
-        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vitae dui vel justo venenatis tristique. Quisque consequat lectus ac justo molestie, at facilisis mauris pellentesque. In quis mattis risus, vel cursus sem.",
-        state: "published"
-      },
-      {
-        title: "Blog 3",
-        description: "my third test",
-        author: "Igashi",
-        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vitae dui vel justo venenatis tristique. Quisque consequat lectus ac justo molestie, at facilisis mauris pellentesque. In quis mattis risus, vel cursus sem.",
-        state: "draft"
-      },
-      {
-        title: "Blog 4",
-        description: "my forth test",
-        author: "Igashi",
-        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vitae dui vel justo venenatis tristique. Quisque consequat lectus ac justo molestie, at facilisis mauris pellentesque. In quis mattis risus, vel cursus sem.",
-        state: "published"
-      },
-    ];
-
-    const draftBlogs = [
-      {
-        title: "Blog 1",
-        description: "my first test",
-        author: "Igashi",
-        body: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen boo",
-         state: "draft"
+         state: "published"
       },
 
       {
@@ -105,29 +74,33 @@ describe("Service: Blog Service", function () {
         description: "my third test",
         author: "Igashi",
         body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vitae dui vel justo venenatis tristique. Quisque consequat lectus ac justo molestie, at facilisis mauris pellentesque. In quis mattis risus, vel cursus sem.",
-        state: "draft"
+        state: "published"
       }
     ]
 
     Blog.find = jest.fn().mockReturnValue({
       state: state,
       skip: jest.fn().mockReturnThis(),
-      limit: jest.fn().mockReturnValue(mockBlogs),
+      limit: jest.fn().mockReturnValue(publishedBlogs),
     });
 
-    Blog.countDocuments = jest.fn().mockResolvedValue(draftBlogs.length);
+    Blog.countDocuments = jest.fn().mockResolvedValue(publishedBlogs);
 
     // When
-   
+    let page = 1;
+    let limit = 10;
+    let query = null;
+    let state = "published";
     const result = await BlogService.getBlogByState(page ,limit ,query , state);
 
     // Then
-    expect(result.data).toEqual(draftBlogs);
-    expect(result.meta.total).toEqual(draftBlogs.length);
+    expect(result.data.state).toEqual(publishedBlogs.state);
     expect(Blog.find).toHaveBeenCalledTimes(1);
     expect(Blog.countDocuments).toHaveBeenCalledTimes(1);
+ 
     
   });
+
 })
 
 

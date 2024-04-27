@@ -13,7 +13,7 @@ export const login = async (email, password)=>{
 
     // check if password is incorrect
     if(!bcrypt.compareSync(password, user.password)){
-        throw new ErrorWithStatus("User or password Incorrect", 401)
+        throw new ErrorWithStatus("Email or password Incorrect", 401)
     }
 
     // generate access tokren

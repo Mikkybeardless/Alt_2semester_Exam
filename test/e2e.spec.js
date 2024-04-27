@@ -65,17 +65,17 @@ describe("E2E tests", () => {
   });
 
   it("should be able to sign in", async () => {
-    // to set header add .set({ 'Authorization': 'Bearer ' + token }) before .send
+    
     await clearDB();
     mongodb.connection.db.collection("users").insertOne({
       first_name: "Grace",
       last_name: "Test User",
-      email: "grace@gmail.com",
+      email: "yammy@gmail.com",
       password: await bcrypt.hash("password", 10),
     });
 
     const res = await request(app).post("/auth/sign_in").send({
-      email: "grace@gmail.com",
+      email: "yammy@gmail.com",
       password: "password",
     });
 
@@ -122,4 +122,28 @@ describe("E2E tests", () => {
     expect(res.body.message).toEqual("Validation Error");
     expect(res.body).toHaveProperty("errors");
   });
+
+  it("should not be able to sign in - invalid payload", async () => {
+    const res = await request(app).post("/auth/sign_in").send({
+      email: "test@mymail.com",
+    });
+
+    console.log(res.body);
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual("Validation Error");
+    expect(res.body).toHaveProperty("errors");
+  });
+
+
+  
+  it("should get all blogs", async () => {
+    const res = await request(app).get("/blogs").send();
+
+  
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.message).toEqual("Get all blogs");
+    // expect(res.body.message).toHaveProperty("data");
+    // expect(res.body.message).toHaveProperty("meta");
+  });
+
 });
