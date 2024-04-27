@@ -7,6 +7,9 @@ const PORT = process.env.PORT;
 
 connect(MONGODB_URL).then(() => {
   logger.info("Connected to DB");
+
+ 
+  
   app.listen(PORT, () => {
     logger.info(`Server is running on http://localhost:${PORT}`);
   });
