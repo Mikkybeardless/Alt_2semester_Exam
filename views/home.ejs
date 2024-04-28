@@ -8,8 +8,22 @@
     <p>Welcome to <strong>Igashi's</strong> blogging APP. Feel free to sign up and create your dream blogs</p>
  </div>   
 
+ <div>
+    <h2>Blog List</h2>
+    <ol>
+    <% if (blogs.length) {%>
+    <% blogs.forEach((blog)=>{%>
+    <li> <a class="single" href="blogs/<%=blog._id%>/read"><h3>Title:</h3>
+        <p><%= blog.title %></p>
+     <h3> Description:</h3>
+     <p><%= blog.description %></p>
+    </a>
+    </li> 
+    <%})%>
 
-
+    <%}%>
+</ol>
+ </div>
 
 </body>
 

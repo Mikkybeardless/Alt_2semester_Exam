@@ -4,21 +4,21 @@
 <body>
     <%- include("./partials/nav.ejs") %> 
     <div class="signup">
-        <form action="" method="post">
+        <form class="signup"  action="/" method="POST">
             <label for="firstname">First Name</label>
-            <input type="text" id="firstname">
+            <input type="text" id="firstname" name="first_name" required>
 
             <label for="lastname">Last Name</label>
-            <input type="text" id="lastname">
+            <input type="text" id="lastname" name="last_name" required>
 
             <label for="email">Email</label>
-            <input type="text" id="email">
+            <input type="text" id="email" nname="email" required>
 
             <label for="password">Password</label>
-            <input type="text" id="password">
+            <input type="password" id="password" name="password" required>
 
             <label for="comfirm_password">Confirm Password</label>
-            <input type="text" id="confirm_password">
+            <input type="password" id="confirm_password" name="confirmPassword" required>
             <button type="submit">Sign Up</button>
         </form>
     </div>

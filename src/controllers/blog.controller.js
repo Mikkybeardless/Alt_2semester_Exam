@@ -3,7 +3,24 @@ import * as blogService from "../services/blog.service.js";
 import logger from "../../config/logger.js";
 
 
-// get all blogs from api(only admin can do this not really necesaay for this project
+
+// create a blog post
+export const createBlog = async (req, res) => {
+  const blog = req.body
+  const userId = req.user.id
+  const content =  req.body.body
+  
+  try {
+   const newBlog = await blogService.create(blog, content, userId);
+  return  res.status(201).render("create", {message: "Blog successfully created", data: newBlog})
+  } catch (error) {
+   logger.error(error);
+   res.status(500).send(error.message)
+  } 
+}
+
+
+
 export const getAllBlogs = async (req, res) => {
   try {
     logger.info("User", req.user);
@@ -20,6 +37,7 @@ export const getAllBlogs = async (req, res) => {
  //return res.status(200).json({ message: "Get all blogs",  data, meta });
 
  res.status(200).render('all_blogs',{ title:"All blogs", blogs:data, meta });
+
   } catch (error) {
     logger.error(error)
     // res.status(500).send(error.message)
@@ -41,7 +59,7 @@ export const getPublishedBlogs = async (req,res)=>{
   //  data = _.pick(data, ["title", "description","author", "body"])
  return res.status(200).json({
    message:"Get all published blogs",
-   data: data, meta
+   data, meta
   })
   } catch (error) {
     logger.error(error)
@@ -77,7 +95,6 @@ export const getDraftBlogs = async (req,res)=>{
 export const getPublishedBlogById = async (req, res) => {
   const blogId = req.params.id
 
- 
   try {
     const blog = await blogService.getBlogById(blogId);
     if (!blog) {
@@ -90,7 +107,8 @@ export const getPublishedBlogById = async (req, res) => {
   
     const authorName = blog.author;
   
-   return res.status(200).json({ message: "  blog by id", author: authorName, blog });
+  //  return res.status(200).json({ message: "  blog by id", author: authorName, blog });
+  res.render("detail", {blog, title: "Blog Details"})
   } catch (error) {
     logger.error(error)
    res.status(500).send(error.message)
@@ -122,20 +140,6 @@ export const getBlogsByOwnerId = async (req,res) =>{
 }
 
 
-// create a blog post
-export const createBlog = async (req, res) => {
-       const blog = req.body
-       const userId = req.user.id
-       const content =  req.body.body
-       
-       try {
-        const newBlog = await blogService.create(blog, content, userId);
-       return  res.status(201).render("create", {message: "Blog successfully created", data: newBlog})
-       } catch (error) {
-        logger.error(error);
-        res.status(500).send(error.message)
-       } 
-}
 
 
 

@@ -3,6 +3,23 @@ import logger from "../../config/logger.js";
 import { ErrorWithStatus } from "../exception/errorWithStatus.exception.js";
 
 
+export const create = async (blog, content, userId) =>{
+  try {
+  
+   const words = content.split(' ').length
+       // Assuming average reading speed of 100 words per minute
+   const readingTime = Math.ceil(words / 200);
+     blog.owner = userId
+     blog.reading_time = readingTime
+
+   const newBlog = await Blog.create(blog);
+   return newBlog;
+  } catch (error) {
+   logger.error(error);
+   throw new ErrorWithStatus(error.message, 500)
+  }
+}
+
 
 export const getAllBlogs = async (page, limit, query) => {
   try {
@@ -108,22 +125,7 @@ export const getOwnerBlogs = async (page = 1, limit = 20, query = null, ownerId)
 }
 
 
-export const create = async (blog, content, userId) =>{
-   try {
-   
-    const words = content.split(' ').length
-        // Assuming average reading speed of 100 words per minute
-    const readingTime = Math.ceil(words / 200);
-      blog.owner = userId
-      blog.reading_time = readingTime
 
-    const newBlog = await Blog.create(blog);
-    return newBlog;
-   } catch (error) {
-    logger.error(error);
-    throw new ErrorWithStatus(error.message, 500)
-   }
-}
 
 export const publishBlog = async(blogId) =>{
   try {

@@ -3,13 +3,13 @@
     <%- include("./partials/head.ejs") %> 
 <body>
     <%- include("./partials/nav.ejs") %> 
-    <div class="signup">
-        <form action="" method="post">
+    <div class="signin">
+        <form class="signin" action="/auth/sign_in" method="POST">
             <label for="email">Email</label>
-            <input type="text" id="email">
+            <input type="email" id="email" name="email" required>
 
             <label for="password">Password</label>
-            <input type="text" id="password">
+            <input type="password" id="password" name="password" required>
 
             <button type="submit">Sign In</button>
         </form>
