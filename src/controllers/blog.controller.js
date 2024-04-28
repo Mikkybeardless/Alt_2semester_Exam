@@ -14,8 +14,12 @@ export const getAllBlogs = async (req, res) => {
     const query = req.query.q;
     const { data, meta } = await blogService.getAllBlogs(page, limit, query);
 
+
+
     // data = _.pick(data, ["title", "description","author", "body"])
- return res.status(200).json({ message: "Get all blogs", data, meta });
+ //return res.status(200).json({ message: "Get all blogs",  data, meta });
+
+ res.status(200).render('all_blogs',{ title:"All blogs", blogs:data, meta });
   } catch (error) {
     logger.error(error)
     // res.status(500).send(error.message)
@@ -117,6 +121,7 @@ export const getBlogsByOwnerId = async (req,res) =>{
   }
 }
 
+
 // create a blog post
 export const createBlog = async (req, res) => {
        const blog = req.body
@@ -125,12 +130,14 @@ export const createBlog = async (req, res) => {
        
        try {
         const newBlog = await blogService.create(blog, content, userId);
-      return  res.status(201).json({message: "Blog successfully created", data: newBlog})
+       return  res.status(201).render("create", {message: "Blog successfully created", data: newBlog})
        } catch (error) {
         logger.error(error);
         res.status(500).send(error.message)
        } 
-}  
+}
+
+
 
  
 // publish a blog by authorized user
@@ -154,7 +161,7 @@ export const updateBlog = async (req,res) => {
     const blogId = req.params.id
     const blog = req.body
     const updatedBlog = blogService.updateBlog(blogId, blog)
-    res.status(200).json({message: "Blog succesfully updated", data: updatedBlog})
+   return res.status(200).json({message: "Blog succesfully updated", data: updatedBlog})
   } catch (error) {
     logger.error(error)
    res.status(500).send(error.message)
@@ -167,9 +174,21 @@ export const deleteBlog = async (req, res) => {
   const blogId = req.params.id
 try {
 await blogService.deleteBlog(blogId);
-res.status(200).json({message: "Blog successfully deleted", data:""})
+return res.status(200).json({message: "Blog successfully deleted", data:""})
 } catch (error) {
   logger.error(error)
  res.status(500).send(error.message)
 } 
 }
+
+
+// pages
+
+
+export const createBlogPage = (req,res)=>{
+  res.render("create")
+}
+
+// export const profilePage = (req,res)=>{
+//   res.render("profile")
+// }

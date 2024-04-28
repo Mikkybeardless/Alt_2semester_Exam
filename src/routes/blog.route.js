@@ -12,15 +12,19 @@ blogRoute.get("/",blogController.getAllBlogs);
 blogRoute.get("/published", blogController.getPublishedBlogs);
 blogRoute.get("/:id/read", blogController.getPublishedBlogById);
 
+
+
 // protected routes
 blogRoute.use(authMiddleware);
 // blogRoute.get("me/all",checkOwnerMiddleware, blogController.getAllUserBlogs );
 blogRoute.get("/draft", blogController.getDraftBlogs);
 
 // create a blog post
+blogRoute.get("/create",blogController.createBlogPage);
 blogRoute.post("/create", generateMiddleware(blogPostSchema), blogController.createBlog);
 
 // uses owner id from jwt to get blogs of owner
+
 blogRoute.get("/me", blogController.getBlogsByOwnerId)
 // restricted route to only owner
 

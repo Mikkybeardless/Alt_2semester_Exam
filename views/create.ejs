@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("./partials/head.ejs") %> 
+<body>
+   <%- include("./partials/nav.ejs") %> 
+
+   <div class=" create content">
+    <form action="" method="post">
+        <label for="title" >Blog Title</label>
+        <input type="text" id="title" required>
+
+        <label for="description" >Description</label>
+        <input type="text" id="description" required>
+
+        <label for="author" >Author</label>
+        <input type="text" id="author" required>
+
+        <label for="body" >Blog content</label>
+        <textarea name="" id="body" cols="30" rows="10" required></textarea>
+       <button type="submit">Submit</button> 
+    </form>
+   </div>
+
+
+</body>
+
+<%- include("./partials/footer.ejs") %> 
+</html>

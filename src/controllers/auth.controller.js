@@ -37,3 +37,13 @@ export const register = async (req, res) => {
     res.status(err.status || 500).json({message: err.message});
   }
 };
+
+
+export const signInPage = (req,res) =>{
+  res.render("signin")
+}
+
+
+export const signUpPage = (req,res) =>{
+  res.render("signup")
+}

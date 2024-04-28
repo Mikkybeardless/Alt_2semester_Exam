@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("./partials/head.ejs") %> 
+<body>
+    <%- include("./partials/nav.ejs") %> 
+   
+
+ <div class=" blogs content">
+   <h2><%= title%></h2>
+   <% if (blogs?.length > 0) %>
+   <% { %>
+ <% blogs.forEach((blog) =>{ %>
+    <h3> Title: <%=blog.title %></h3>
+     <h4> Description: </h4>
+     <p><%= blog.description %></p>
+     <h4> Author: <%= blog.author %></h4>
+     <h4>Body:</h4>
+     <p><%= blog.body %> </p>
+    <%}) %>
+    <% } %>
+ 
+ </div>
+
+
+
+
+</body>
+
+<%- include("./partials/footer.ejs") %> 
+</html>
