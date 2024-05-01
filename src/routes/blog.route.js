@@ -13,13 +13,15 @@ blogRoute.get("/published", blogController.getPublishedBlogs);
 blogRoute.get("/:id/read", blogController.getPublishedBlogById);
 
 
-blogRoute.get("/create",blogController.createBlogPage);
+
 // protected routes
 blogRoute.use(authMiddleware);
+
+// create a blog post
+blogRoute.get("/create",blogController.createBlogPage);
 // blogRoute.get("me/all",checkOwnerMiddleware, blogController.getAllUserBlogs );
 blogRoute.get("/draft", blogController.getDraftBlogs);
 
-// create a blog post
 
 blogRoute.post("/create", generateMiddleware(blogPostSchema), blogController.createBlog);
 

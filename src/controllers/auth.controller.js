@@ -4,8 +4,8 @@ export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const token = await authService.login(email, password);
-     res.setHeader("Authorization", `Bearer ${token}`);
-    res.status(200).json({
+    res.setHeader("Authorization", `Bearer ${token}`);
+    res.status(200).render("profile",{
       message: "Login successful",
       data: {
         accessToken: token,
