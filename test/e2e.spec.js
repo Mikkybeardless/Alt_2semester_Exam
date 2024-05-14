@@ -1,4 +1,3 @@
-
 import bcrypt from "bcrypt";
 import request from "supertest";
 import { connect } from "../src/database/connection.js";
@@ -142,8 +141,6 @@ describe("E2E tests", () => {
   
     expect(res.statusCode).toEqual(200);
     expect(res.body.message).toEqual("Get all blogs");
-    // expect(res.body.message).toHaveProperty("data");
-    // expect(res.body.message).toHaveProperty("meta");
   });
 
 });

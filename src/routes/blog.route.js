@@ -10,7 +10,7 @@ const blogRoute = Router();
 // General routes
 blogRoute.get("/",blogController.getAllBlogs);
 blogRoute.get("/published", blogController.getPublishedBlogs);
-blogRoute.get("/:id/read", blogController.getPublishedBlogById);
+blogRoute.get("/:id", blogController.getPublishedBlogById);
 
 
 
@@ -31,9 +31,9 @@ blogRoute.get("/me", blogController.getBlogsByOwnerId)
 // restricted route to only owner
 
 blogRoute.use(checkOwnerMiddleware)
-blogRoute.patch("/:id/publish",  blogController.publishBlog);
-blogRoute.put("/:id/update",  blogController.updateBlog)
-blogRoute.delete("/:id/delete", blogController.deleteBlog);
+blogRoute.patch("/:id",  blogController.publishBlog);
+blogRoute.put("/:id",  blogController.updateBlog)
+blogRoute.delete("/:id", blogController.deleteBlog);
 
 
 

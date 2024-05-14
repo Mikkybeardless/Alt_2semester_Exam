@@ -14,12 +14,12 @@ export const login = async (req, res, next) => {
     });
 
   } catch (err) {
-    logger.error(err)
-     res.status(err.status || 500).json({message: err.message});
+  logger.error(err)
+  res.status(err.status || 500).json({message: err.message})
   }
 };
 
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
   try {
     const { first_name, last_name, email, password, role } = req.body;
     const newUser = await authService.register(first_name, last_name, email, password, role);
