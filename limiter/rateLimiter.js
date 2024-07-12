@@ -4,7 +4,7 @@ export const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 20 minutes
   limit: 5, // Limit each IP to 100 requests per `window` (here, per 1 minutes).
   keyGenerator: function (req) {
-    return req.headers["x-device-id"] || req.user.id || req.ip;
+    return req.headers["x-device-id"] || req.ip;
   },
   standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header.
 });
