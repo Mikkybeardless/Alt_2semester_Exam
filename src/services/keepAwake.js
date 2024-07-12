@@ -1,7 +1,7 @@
 import Cron from "croner";
 import axios from "axios";
 
-const url = "https://hng-task1-dl2y.onrender.com/"; // replace with your server's URL
+const url = "https://alt-2sem-blogapi-exam.onrender.com"; // replace with your server's URL
 
 const startKeepAliveJob = () => {
   const date = new Date();
