@@ -13,11 +13,3 @@ export const registerSchema = Joi.object({
   confirmPassword: Joi.string().valid(Joi.ref("password")).required(),
   role: Joi.string().valid("USER", "ADMIN"),
 });
-
-
-export const blogPostSchema = Joi.object({
-  title: Joi.string().required(),
-  description: Joi.string().required(),
-  body: Joi.string().required(),
-  author: Joi.string().required()
-})

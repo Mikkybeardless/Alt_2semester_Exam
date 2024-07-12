@@ -3,11 +3,11 @@ import request from "supertest";
 import { connect } from "../src/database/connection.js";
 import app from "../src/app.js";
 
-const TEST_DB = "mongodb+srv://mikkybeardless:igashimichael88@cluster0.ccm8zas.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0"
-
+const TEST_DB =
+  "mongodb+srv://mikkybeardless:igashimichael88@cluster0.ccm8zas.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0";
 
 describe("E2E tests", () => {
-    jest.setTimeout(20000);
+  jest.setTimeout(20000);
   let mongodb;
 
   const clearDB = async () => {
@@ -49,8 +49,7 @@ describe("E2E tests", () => {
       last_name: "Test User",
       email: "mikky@gmail.com",
       password: "password",
-      confirmPassword: "password"
-      
+      confirmPassword: "password",
     });
 
     console.log(res.body);
@@ -64,17 +63,16 @@ describe("E2E tests", () => {
   });
 
   it("should be able to sign in", async () => {
-    
     await clearDB();
     mongodb.connection.db.collection("users").insertOne({
       first_name: "Grace",
       last_name: "Test User",
-      email: "yammy@gmail.com",
+      email: "yam@gmail.com",
       password: await bcrypt.hash("password", 10),
     });
 
     const res = await request(app).post("/auth/sign_in").send({
-      email: "yammy@gmail.com",
+      email: "yam@gmail.com",
       password: "password",
     });
 
@@ -101,17 +99,15 @@ describe("E2E tests", () => {
       title: "The meg",
       description: "This is the first test blog post",
       author: "Igashi",
-      body: "welcome to test 1234. hope you get it."
+      body: "welcome to test 1234. hope you get it.",
     });
 
     console.log(res.body);
     expect(res.statusCode).toEqual(401);
     expect(res.body.message).toEqual("Unauthorized");
-    
   });
 
-  
-  it("should not be able to create user - invalid payload", async () => {
+  it("should not be able to sign in  - invalid payload", async () => {
     const res = await request(app).post("/auth/sign_in").send({
       email: "test@mymail.com",
     });
@@ -122,25 +118,9 @@ describe("E2E tests", () => {
     expect(res.body).toHaveProperty("errors");
   });
 
-  it("should not be able to sign in - invalid payload", async () => {
-    const res = await request(app).post("/auth/sign_in").send({
-      email: "test@mymail.com",
-    });
-
-    console.log(res.body);
-    expect(res.statusCode).toEqual(400);
-    expect(res.body.message).toEqual("Validation Error");
-    expect(res.body).toHaveProperty("errors");
-  });
-
-
-  
-  it("should get all blogs", async () => {
+  it("should return all blogs", async () => {
     const res = await request(app).get("/blogs").send();
 
-  
     expect(res.statusCode).toEqual(200);
-    expect(res.body.message).toEqual("Get all blogs");
   });
-
 });

@@ -1,5 +1,5 @@
 import * as userService from "../services/user.service.js";
-import logger from "../../config/logger.js";
+import logger from "../../logger/logger.js";
 export const getAllUsers = async (req, res) => {
   try {
     logger.info("blog", req.user);
@@ -11,7 +11,7 @@ export const getAllUsers = async (req, res) => {
     const { data, meta } = await userService.getAllUsers(page, limit, query);
     res.json({ message: "Get all Users", data, meta });
   } catch (error) {
-    logger.error(error)
+    logger.error(error);
     res.status(500).json({ message: error.message });
   }
 };

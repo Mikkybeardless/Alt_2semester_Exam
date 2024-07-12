@@ -4,7 +4,7 @@
       margin: 20px auto;
       padding: 0 20px;
       font-family: 'Noto Serif', serif;
-      max-width: 1200px;
+ 
     }
     p, h1, h2, h3, a, ul{
       margin: 0;
@@ -18,9 +18,12 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 60px;
+      padding-left: 20px;
+      padding-right: 20px;
       padding-bottom: 10px;
       border-bottom: 1px solid #ddd;
       text-transform: uppercase;
+      background-color: #CAF4FF;
     }
     nav ul{
       display: flex;
@@ -30,6 +33,10 @@
     nav li{
       list-style-type: none;
       margin-left: 20px;
+    }
+    nav li :hover{
+      font-size: large;
+      color: #222;
     }
     nav h1{
       font-size: 3em;
@@ -48,6 +55,7 @@
       color: #777;
       text-align: center;
       margin: 80px auto 20px;
+      background-color: #CAF4FF;
     }
     h2{
       margin-bottom: 40px;
@@ -60,6 +68,25 @@
       margin-left: 20px;
     }
 
+    .blog-list a{
+      display: block;
+      margin: 40px 0;
+      padding-left: 30px;
+      border-left: 6px solid #6DC5D1 ;
+      margin-bottom: 20px ;
+    }
+     
+    .blog-list  p{
+      font-size: 15px;
+      font-weight: normal;
+    }
+    .blog-list a h3 p:hover{
+      color:#6DC5D1
+    }
+
+    .blog-list a h4 p:hover{
+      color:#6DC5D1
+    }
     /* index styles */
 
     /* details styles */
@@ -113,7 +140,7 @@
 
     .signup button, .signin button{
       margin-top: 20px;
-      background: rgba(20, 220, 143, 0.384);
+      background: #4CCD99;
       color: white;
       padding: 6px;
       border: 0;
