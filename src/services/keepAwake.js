@@ -6,7 +6,7 @@ const url = "https://alt-2sem-blogapi-exam.onrender.com"; // replace with your s
 const startKeepAliveJob = () => {
   const date = new Date();
   const time = date.toLocaleTimeString();
-  const job = Cron("0 12 1 * *", () => {
+  const job = Cron("0 12 * * *", () => {
     // Runs every 2 minutes
     axios
       .get(url)
