@@ -1,0 +1,1 @@
+{"version":3,"file":"errorWithStatus.exception.d.ts","sourceRoot":"","sources":["../../src/exception/errorWithStatus.exception.ts"],"names":[],"mappings":"AAAA,qBAAa,eAAgB,SAAQ,KAAK;IACxC,MAAM,EAAE,MAAM,CAAC;gBACH,OAAO,EAAE,MAAM,EAAE,MAAM,EAAE,MAAM;CAI5C"}
