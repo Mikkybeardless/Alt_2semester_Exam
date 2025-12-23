@@ -1,0 +1,1 @@
+{"version":3,"file":"errorWithStatus.exception.js","sourceRoot":"","sources":["../../src/exception/errorWithStatus.exception.ts"],"names":[],"mappings":"AAAA,MAAM,OAAO,eAAgB,SAAQ,KAAK;IACxC,MAAM,CAAS;IACf,YAAY,OAAe,EAAE,MAAc;QACzC,KAAK,CAAC,OAAO,CAAC,CAAC;QACf,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;IACvB,CAAC;CACF"}
