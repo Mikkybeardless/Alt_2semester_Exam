@@ -68,10 +68,10 @@ export const forgotPassword = async (email: string, resetUrl: string) => {
   if (!user) {
     throw new ErrorWithStatus("User not found", 404);
   }
-  const restToken = user.createPasswordResetToken();
+  const resetToken = user.createPasswordResetToken();
   await user.save();
   // Construct the reset link using frontend's URL
-  const resetLink = `${resetUrl}?token=${restToken}&email=${encodeURIComponent(
+  const resetLink = `${resetUrl}?token=${resetToken}&email=${encodeURIComponent(
     email
   )}`;
   const html = resetPasswordHtml(resetLink);
